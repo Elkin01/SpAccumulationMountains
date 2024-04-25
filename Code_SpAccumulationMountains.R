@@ -1,8 +1,5 @@
 ######################################################################################################
 
-
-#### El MARS debería tener un componente espacial de acuerdo a como lo venia estudiando. Leer cómo hacerlo
-
 #Clean workspace
 rm(list=ls())
 
@@ -882,9 +879,22 @@ parameterestimates(fComplete, boot.ci.type = "bca.simple", standardized = TRUE)
 
 print('Spatial SEM results')
 
-#Generate a distance matrix for use in the spatial structural equation modeldistancematrix <- round(rdist.earth(x1 = tablas[[1]][,c('x', 'y')])[lower.tri(matrix(nrow = nrow(tablas[[1]]), ncol = nrow(tablas[[1]])), diag=T)])temp_bins<-make.bin(distancematrix, type="n.bins",n.bin=3, p.dist=25)binsize<-temp_bins[1][[1]]binname<-temp_bins[2][[1]]covariances<-make.covar(tablas[[1]], distancematrix, binsize, binname)#Fit the modeloutput<-sesem::runModels(Complete, covariances)modelsummary(output)
-plotmodelfit(output,rmsea_err=FALSE)plotpath(output,pch=11)
-par(mar=c(2.5,2.5,1.5,1))gam.path(output, plot.points=F,se.plot=T)bin.rsquare(output, bin="binflat")
+#Generate a distance matrix for use in the spatial structural equation model
+distancematrix <- round(rdist.earth(x1 = tablas[[1]][,c('x', 'y')])[lower.tri(matrix(nrow = nrow(tablas[[1]]), ncol = nrow(tablas[[1]])), diag=T)])
+temp_bins<-make.bin(distancematrix, type="n.bins",n.bin=3, p.dist=25)
+binsize<-temp_bins[1][[1]]
+binname<-temp_bins[2][[1]]
+covariances<-make.covar(tablas[[1]], distancematrix, binsize, binname)
+
+#Fit the model
+output<-sesem::runModels(Complete, covariances)
+modelsummary(output)
+plotmodelfit(output,rmsea_err=FALSE)
+plotpath(output,pch=11)
+par(mar=c(2.5,2.5,1.5,1))
+gam.path(output, plot.points=F,se.plot=T)
+bin.rsquare(output, bin="binflat")
+
 sink()
 
 #################################
